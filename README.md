@@ -1,5 +1,20 @@
-# git commit - push test
+## 1. 실행 환경
+ - OS : 
+ - SHELL : 
+ - Docker : 
+ - Git : 
 
-this is test
+## 2. 수행 체크리스트
+ - [x] [터미널 기본 조작 및 폴더 구성](#31-터미널-기본-조작-및-폴더-구성)
+ - [x] 권한 변경 실습
+ - [x] Docker 설치 및 점검
+ - [x] hello-world 실행
+ - [x] Dockerfile 빌드 및 실행
+ - [x] 포트 매핑 접속 시도
+ - [x] 바인드 마운트 반영
+ - [x] 볼륨 영속성
+ - [x] Git 설정 및 VSCode와 GitHub 연동
 
-test no.2
+## 3. 수행 로그
+
+### 3.1 터미널 기본 조작 및 폴더 구성
