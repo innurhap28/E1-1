@@ -396,3 +396,36 @@ FROM nginx:ubuntu
 # 수정 후
 FROM nginx:alpine
 COPY app/index.html /usr/share/nginx/html/index.html
+```
+
+---
+
+### 포트 80 이미 사용 중 오류
+
+**문제:** 컨테이너 실행 시 포트 80 바인딩 실패
+
+```zsh
+innuendo3712@c4r6s1 docker-project % docker run -d -p 80:80 my-web
+ad3f0d8e8068793dafb174efe211e4f64061405c7895c8dff72581bf482b7bbc
+docker: Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint vigilant_dubinsky (0c0ac449106f38842a26d1439a92e593d68d250c0884d17f235b199c0bac811c): Bind for 0.0.0.0:80 failed: port is already allocated
+
+Run 'docker run --help' for more information
+```
+
+**원인 가설:** 이전에 실행된 컨테이너 등이 점유 중일 가능성
+
+**확인:** 포트 80 사용 프로세스 확인
+```zsh
+innuendo3712@c4r6s1 docker-project % lsof -i :80
+COMMAND    PID         USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+OrbStack  1973 innuendo3712   84u  IPv4 0xa52e19e2fb9c5e8c      0t0  TCP *:http (LISTEN)
+OrbStack  1973 innuendo3712   85u  IPv6 0xc07cd160201c4bf0      0t0  TCP *:http (LISTEN)
+```
+-> `OrbStack`에서 포트 80을 이미 점유하고 있음을 확인
+
+**해결:** OrbStack에서 직접 실행 중이던 컨테이너 종료 후 시도
+
+```zsh
+innuendo3712@c4r6s1 docker-project % docker run -d -p 8080:80 my-web
+168cecf8ad8be6d21fc5a7b5e1e6bc60d5d71dcf128317e90b37a09628aaec2c
+```
